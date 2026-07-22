@@ -1,0 +1,5 @@
+bin/
+*.o
+.vscode/
+*.swp
+demo/__pycache__/
