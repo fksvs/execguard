@@ -91,6 +91,21 @@ Each exec attempt by a tracked process is printed as it happens:
 
 Stop execguard with Ctrl-C (SIGINT) or SIGTERM.
 
+### Changing enforcement mode at runtime
+
+While an execguard instance is loaded and attached, you can flip it between
+monitor and enforce mode without restarting it by running the command again 
+without `--target-pid`:
+
+```
+sudo bin/execguard --enforce      # switch the running instance to enforce mode
+sudo bin/execguard                # switch it back to monitor mode
+```
+
+This works by writing directly to the running instance's `guard_config` map,
+which is pinned at `/sys/fs/bpf/execguard/guard_config` for the lifetime of
+the process that loaded it.
+
 ## Demo
 
 `demo/` contains a small Flask app with a `/run-id` endpoint that shells

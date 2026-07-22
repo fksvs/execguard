@@ -17,6 +17,20 @@ func main() {
 	flag.Parse()
 
 	if *pid == 0 {
+		if bpf.IsRunning() {
+			if err := bpf.SetEnforcingRunning(*enforce); err != nil {
+				fmt.Fprintf(os.Stderr, "execguard: %v\n", err)
+				os.Exit(1)
+			}
+
+			mode := "monitor"
+			if *enforce {
+				mode = "enforce"
+			}
+			fmt.Printf("execguard: switched running instance to [%s] mode\n", mode)
+			return
+		}
+
 		fmt.Fprintln(os.Stderr, "usage: execguard --target-pid <pid> [--enforce]")
 		os.Exit(1)
 	}
