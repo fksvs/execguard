@@ -40,7 +40,8 @@ struct event {
 /* https://github.com/torvalds/linux/blob/b95f03f04d475aa6719d15a636ddf32222d55657/include/trace/events/sched.h#L396 
  * use tp_btf tracepoints, so we have BTF and task_struct at the same time */
 SEC("tp_btf/sched_process_fork")
-int BPF_PROG(execguard_fork, struct task_struct *parent, struct task_struct *child)
+int BPF_PROG(execguard_fork, struct task_struct *parent,
+	     struct task_struct *child)
 {
 	__u32 child_pid = BPF_CORE_READ(child, pid);
 	__u32 child_tgid = BPF_CORE_READ(child, tgid);

@@ -53,13 +53,13 @@ func (g *Guard) backfillChildren(pid uint32) error {
 			if seen[child] {
 				continue
 			}
-			
+
 			seen[child] = true
-			
+
 			if err := g.TrackPID(child); err != nil {
 				return fmt.Errorf("tracking pid %d: %w", child, err)
 			}
-			
+
 			if err := g.backfillChildren(child); err != nil {
 				return err
 			}
